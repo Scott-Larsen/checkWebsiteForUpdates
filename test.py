@@ -1,493 +1,311 @@
-# # from collections import defaultdict
+t1 = "The Red Cross works to ensure that the blood and platelet donation process is as safe as possible for donors and patients in need. We need to start by confirming some information. RapidPass® may only be completed on the day of your donation. Please acknowledge that you are donating today:"
+t2 = "The Red Cross works to ensure, that the blood and platelet process to donate is safe. as possible for donors and patients in needWe need to start by confirming some information. RapidPass may only be completed on the day of your donation. Please acknowledge that you are donating today"
 
-# def pullFromDict(entry):
-#     if entry in d.keys():
-#         ret = d[entry].pop()
-#         if len(d[entry] == 0):
-#                d.delete(entry)
-#         return ret
-#     return False
+MIN_LENGTH_MATCH = 7
 
 
-# class Solution:
-#     def restoreArray(self, adjacentPairs: List[List[int]]) -> List[int]:
-#         if len(adjacentPairs) <= 1:
-#             return adjacentPairs[0]
-#         else:
-#             res = adjacentPairs.pop()
-#             start, end = res[0], res[1]
-#             revStart = []
-#             d = {}
-#             for pair in adjacentPairs:
-#                 if pair[0] not in d.keys():
-#                     d[pair[0]] = [pair[1]]
-#                 else:
-#                     d[pair[0]].append(pair[1])
-
-#             while d:
-#                 newStart = pullFromDict(start)
-#                 if newStart not False:
-#                     revStart.append(newStart)
-#                     start = revStart[-1]
-#                 newEnd = pullFromDict(end)
-#                 if newEnd not False:
-#                     res.append(newEnd)
-#                     end = res[-1]
-#             return revStart[::-1] + res
+def findLongestString(t1, t2):
+    i, j = 0, MIN_LENGTH_MATCH
+    longestString = ""
+    while i + j < len(t1):
+        currentString = t1[i : i + j]
+        if t1[i : i + j] in t2:
+            x = t2.index(t1[i : i + j])
+            while i + j < len(t1) and x + j < len(t2) and t1[i + j] == t2[x + j]:
+                currentString = t1[i : i + j]
+                j += 1
+            if j > len(longestString):
+                longestString = t1[i : i + j]
+            else:
+                i += 1
+            i = i + j
+            j = MIN_LENGTH_MATCH
+        else:
+            i += 1
+    return longestString
 
 
-#         if len(adjacentPairs) <= 1:
-#             return adjacentPairs[0]
-#         else:
-#             res = adjacentPairs.pop()
-#             start, end = res[0], res[1]
-#             while adjacentPairs:
-#                 for i in range(len(adjacentPairs) - 1, -1, -1):
-#                     if start in adjacentPairs[i]:
-#                         new = adjacentPairs.pop(i)
-#                         new.remove(start)
-#                         start = new[0]
-#                         res = [start] + res
-#                     elif end in adjacentPairs[i]:
-#                         new = adjacentPairs.pop(i)
-#                         new.remove(end)
-#                         end = new[0]
-#                         res.append(end)
-#             return res
+# print(findLongestString(t1, t2))
 
 
-# if len(adjacentPairs) <= 1:
-#     return adjacentPairs
+def diff(t1, t2):
+    matchingStrings = []
+    while len(findLongestString(t1, t2)) > 0:
+        longestString = findLongestString(t1, t2)
+        matchingStrings.append(longestString)
+        t1 = "^".join(t1.split(longestString))
+        t2 = "^".join(t2.split(longestString))
+        # print(t1)
+    return t1, t2, matchingStrings
+
+
+diffT1, diffT2, matchingStrings = diff(t1, t2)
+# diffT1, diffT2 = diffT1.split("^"), diffT2.split("^")
+
+# for i in range(len(max(diffT1, diffT2))):
+#     if i < len(diffT1):
+#         print(diffT1[i])
+#     if i < len(diffT1) and i < len(diffT2):
+#         print("...became...")
+#     if i < len(diffT1):
+#         print(diffT2[i])
+print("\nNew in most recent edit....")
+for d in diffT1.split("^"):
+    if len(d.strip()) > 1:
+        print(d.strip())
+# for d in diffT2.split("^"):
+#     print(d)
+
+
+# print(matchingStrings)
+
+# if findLongestString(t1, t2) == "":
+#     return t1, t2
 # else:
-#     d = defaultdict(list)
-#     n = defaultdict(int)
-#     for pair in adjacentPairs:
-#         d[pair[0]].append(pair)
-#         n[pair[0]] += 1
-#         d[pair[1]].append(pair)
-#         n[pair[1]] += 1
-#     smallestKey = [False, False]
-#     for key in n.keys():
-#         if n[key] < smallestKey[1] or smallestKey[0] == False:
-#             smallestKey = [key, n[key]]
-#     res = d[smallestKey[0]].pop()
-#     notSmallestKey = res[:]
-#     notSmallestKey.remove(smallestKey[0])
-#     d[notSmallestKey[0]].remove(res)
-#     if smallestKey[0] != res[0]:
-#         res = [res[1], res[0]]
-#     while d:
-#         next = d[res[-1]].pop()[:]
-#         if d[res[-1]] == []:
-#             del d[res[-1]]
-#         inverseNext = next[::-1]
-#         next.remove(res[-1])
-#         d[next[0]].remove(inverseNext[::-1])
-#         if d[next[0]] == []:
-#             del d[next[0]]
-#         res.append(next[0])
-#     return res
-#
-#
-#
-#
-#
-#
-#
-# i = 3
-# d = i
-# i = 4
-# print(d)
-# print(divmod(10, 10))
-
-# import random
-# import math
-
-# content = """
-# Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-# Phasellus sollicitudin condimentum libero,
-# sit amet ultrices lacus faucibus nec.
-# Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-# Cum sociis natoque penatibus et magnis dis parturient montes,
-# nascetur ridiculus mus. Cras nulla nisi, accumsan gravida commodo et,
-# venenatis dignissim quam. Mauris rutrum ullamcorper consectetur.
-# Nunc luctus dui eu libero fringilla tempor. Integer vitae libero purus.
-# Fusce est dui, suscipit mollis pellentesque vel, cursus sed sapien.
-# Duis quam nibh, dictum ut dictum eget, ultrices in tortor.
-# In hac habitasse platea dictumst. Morbi et leo enim.
-# Aenean ipsum ipsum, laoreet vel cursus a, tincidunt ultrices augue.
-# Aliquam ac erat eget nunc lacinia imperdiet vel id nulla."""
+#     longestString = findLongestString(t1, t2)
+#     matchingStrings.append(longestString)
+#     t1 = "^".join(t1.split(longestString))
+#     t2 = "^".join(t2.split(longestString))
+#     return diff(t1, t2)
 
 
-# def fuzzit(content):
-#     # Write a random fuzzer for a simulated text viewer application
-#     bContent = content.encode()
-#     print(bContent)
-
-
-# print(fuzzit(content))
-
-
-# def is_luhn_valid(n):
-#     ###Your code here.
-#     n = str(n)
-#     if len(n) % 2 == 0:
-#         l = "even"
+# def diff(t1, t2):
+#     if len(t1) < MIN_LENGTH_MATCH:
+#         commonText.append(t1)
 #     else:
-#         l = "odd"
-#     res = 0
-#     for i in range(len(n)):
-#         if l == "even":
-#             if i % 2 == 1:
-#                 if 2 * int(n[i]) > 9:
-#                     res += 2 * int(n[i]) - 9
+#         matchingString = ""
+#         i, j = 0, MIN_LENGTH_MATCH
+#         while i + j < len(t1):
+#             # if len(matchingString) == 0
+#             while t1[i : i + j] in t2 or t2[i : i + j] in t1:
+#                 if t1[i : i + j] in t2:
+#                     matchingString = t1[i : i + j]
 #                 else:
-#                     res += 2 * int(n[i])
-#             else:
-#                 res += int(n[i])
-#         else:
-#             if i % 2 == 1:
-#                 if 2 * int(n[i]) > 9:
-#                     res += 2 * int(n[i]) - 9
-#                 else:
-#                     res += 2 * int(n[i])
-#             else:
-#                 res += int(n[i])
-#     if res % 10 == 0:
-#         return True
-#     return False
+#                     matchingString = t2[i : i + j]
+#                 j += 1
+#             if len(matchingString) > 0:
+#                 commonText.append(matchingString)
+#                 # differentText1 = t1[:i]
+#                 # print(f"t2 = {t2}")
+#                 # print(f"commonText = {commonText}")
+#                 # print(len(t1.split(commonText[-1])))
+#                 [differentText1, t1] = t1.split(matchingString)
+#                 [differentText2, t2] = t2.split(matchingString)
+#                 changedText.append([differentText1, differentText2])
+#                 return diff(t1, t2)
+#             i += 1
 
 
-# print(is_luhn_valid(125))
-
-# import math
-
-# # for i in range(3, 39):
-# #     print(i, math.sqrt(i), int(math.sqrt(i)))
-
-
-# def isPrime(number):
-#     if number == 2:
-#         return True
-#     if number <= 1 or (number % 2) == 0:
-#         return False
-#     for check in range(3, int(math.sqrt(number)) + 1):
-#         print(number % check)  # if (number % check) == 0:
-#         #     return False
-#     return True
+# diff(t1, t2)
+# for cT in changedText:
+#     if cT != ["", ""]:
+#         print(cT[0], "...became...", cT[1])
+# print(commonText)
+# print(changedText)
 
 
-# for i in range(1, 34, 2):
-#     print(i, isPrime(i))
+# # text1 = """
+# # <!DOCTYPE html>
+# # <html lang="en-US">
 
-# for check in range(3, int(math.sqrt(number))):
-#     print(math.sqrt(num), int(math.sqrt(num)))
+# #   <head>
+# #   <meta charset="utf-8">
+# #   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+# #   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-# def solution(n):
-#     #     current = 1
-#     #     perfect = []
-#     #     while n > current:
-#     #         perfect.append(current)
-#     #         n -= current
-#     #         current += 1
-#     #     current += n
-#     #     print(perfect)
+# #   <!-- <title>About</title> -->
+# #   <title>Scott Larsen - About</title>
+# #   <meta name="description" content="Python Developer in LA">
 
-#     # print(solution(10))
 
-#     if n <= 4:
-#         return 1
+# #   <link rel="stylesheet" href="http://ScottLarsen.com/assets/style.css">
+
+# #   <link rel="canonical" href="http://ScottLarsen.com/">
+# #   <link rel="alternate" type="application/rss+xml" title="Scott Larsen" href="http://ScottLarsen.com/feed.xml">
+
+# #   <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+# # </head>
+
+# #   <body class="About">
+
+# #     <header class="border-bottom-thick px-2 clearfix">
+
+# #   <nav class="topnav">
+# #     <a class="align-left align-middle link-primary text-accent title" href="/">Scott Larsen</a><br class="brNoDisplay">
+# #     <div class="topnav-right">
+# #       <a class="align-middle link-primary mr-2 mr-lg-0 ml-lg-2" href="/">About</a>
+# #       <a class="align-middle link-primary mr-2 mr-lg-0 ml-lg-2" href="/projects">Projects</a>
+# #       <a class="align-middle link-primary mr-2 mr-lg-0 ml-lg-2" target="_blank" rel="noopener" href="https://github.com/Scott-Larsen">GitHub</a>
+# #       <a class="align-middle link-primary mr-2 mr-lg-0 ml-lg-2" target="_blank" rel="noopener" href="https://www.linkedin.com/in/ScottRLarsen">LinkedIn</a>
+# #       <a class="align-middle link-primary mr-2 mr-lg-0 ml-lg-2" target="_blank" rel="noopener" href="/static/Scott-Larsen-Resume.pdf">Resume</a>
+# #       <a class="align-middle link-primary mr-2 mr-lg-0 ml-lg-2" href="/blog">Blog</a>
+# #     </div>
+# #   </nav>
+# # </header>
+
+
+# #     <div>
+# #       <article class="container mx-auto px-2 mt2 mb4">
+# #   <header>
+# #     <h1 class="h0 py-4 mt-3">About</h1>
+# #   </header>
+# #   <div class="col-4 sm-width-full border-top-thin">
+# #   </div>
+# #   <div class="prose mb-4 py-4">
+# #     <p><img class="profilePhoto" alt="Scott Larsen Portrait" src="https://avatars1.githubusercontent.com/u/25908816?s=460&amp;v=4" /></p>
+
+# # <p>Hi 👋, I’m Scott, a 🐍 Python Developer with HTML5, CSS3 and a bit of Javascript experience looking for my first developer role.  I would be happy to relocate, especially once the Covid pandemic has wound down.  I have experience in building websites with Flask, scraping data using Beautiful Soup and Selenium and querying GraphQL/ APIs.  Because of my background in photography I have dabbled in and would love to delve deeper into learning from and manipulating images and video with OpenCV and computer vision.</p>
+
+# # <h3 id="contact-me">Contact me</h3>
+
+# # <p><a href="/cdn-cgi/l/email-protection#4112222e35350112222e35350d203332242f6f222e2c"><span class="__cf_email__" data-cfemail="3764545843437764545843437b56454452591954585a">[email&#160;protected]</span></a></p>
+
+# #   </div>
+# # </article>
+
+# #     </div>
+
+# #     <div class="border-top-thin clearfix mt-2 mt-lg-4">
+# #   <div class="container mx-auto px-2">
+# #     <!-- <p class="col-8 sm-width-full left py-2 mb-0">This project is maintained by <a class="text-accent" href="https://github.com/Scott-Larsen">Scott-Larsen</a></p> -->
+# #     <ul class="list-reset right clearfix sm-width-full py-2 mb-2 mb-lg-0">
+# #       <li class="inline-block mr-1">
+# #         <!-- <a href="https://twitter.com/share" class="twitter-share-button" data-hashtags="Scott Larsen">Tweet</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+# #       </li>
+# #       <li class="inline-block">
+# #         <a class="github-button" href="https://github.com/Scott-Larsen/" data-icon="octicon-star" data-count-href="Scott-Larsen//stargazers" data-count-api="/repos/Scott-Larsen/#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star Scott-Larsen/ on GitHub">Star</a> -->
+# #       </li>
+# #     </ul>
+# #   </div>
+# # </div>
+
+
+# #   <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+
+# # </html>
+
+# # """
+
+
+# # text2 = """
+# # <!DOCTYPE html>
+# # <html lang="en-US">
+
+# #   <head>
+# #   <meta charset="utf-8">
+# #   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+# #   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+# #   <!-- <title>About</title> -->
+# #   <title>Scott Larsen - About</title>
+# #   <meta name="description" content="Python Developer in LA">
+
+
+# #   <link rel="stylesheet" href="http://ScottLarsen.com/assets/style.css">
+
+# #   <link rel="canonical" href="http://ScottLarsen.com/">
+# #   <link rel="alternate" type="application/rss+xml" title="Scott Larsen" href="http://ScottLarsen.com/feed.xml">
+
+# #   <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+# # </head>
+
+# #   <body class="About">
+
+# #     <header class="border-bottom-thick px-2 clearfix">
+
+# #   <nav class="topnav">
+# #     <a class="align-left align-middle link-primary text-accent title" href="/">Scott Larsen</a><br class="brNoDisplay">
+# #     <div class="topnav-right">
+# #       <a class="align-middle link-primary mr-2 mr-lg-0 ml-lg-2" href="/">About</a>
+# #       <a class="align-middle link-primary mr-2 mr-lg-0 ml-lg-2" href="/projects">Projects</a>
+# #       <a class="align-middle link-primary mr-2 mr-lg-0 ml-lg-2" target="_blank" rel="noopener" href="https://github.com/Scott-Larsen">GitHub</a>
+# #       <a class="align-middle link-primary mr-2 mr-lg-0 ml-lg-2" target="_blank" rel="noopener" href="https://www.linkedin.com/in/ScottRLarsen">LinkedIn</a>
+# #       <a class="align-middle link-primary mr-2 mr-lg-0 ml-lg-2" target="_blank" rel="noopener" href="/static/Scott-Larsen-Resume.pdf">Resume</a>
+# #       <a class="align-middle link-primary mr-2 mr-lg-0 ml-lg-2" href="/blog">Blog</a>
+# #     </div>
+# #   </nav>
+# # </header>
+
+
+# #     <div>
+# #       <article class="container mx-auto px-2 mt2 mb4">
+# #   <header>
+# #     <h1 class="h0 py-4 mt-3">About</h1>
+# #   </header>
+# #   <div class="col-4 sm-width-full border-top-thin">
+# #   </div>
+# #   <div class="prose mb-4 py-4">
+# #     <p><img class="profilePhoto" alt="Scott Larsen Portrait" src="https://avatars1.githubusercontent.com/u/25908816?s=460&amp;v=4" /></p>
+
+# # <p>Hi 👋, I’m Scott, a 🐍 Python Developer with HTML5, CSS3 and a bit of Javascript experience looking for my first developer role.  I would be happy to relocate, especially once the Covid pandemic has wound down.  I have experience in building websites with Flask, scraping data using Beautiful Soup and Selenium and querying GraphQL/ APIs.  Because of my background in photography I have dabbled in and would love to delve deeper into learning from and manipulating images and video with OpenCV and computer vision.</p>
+
+# # <h3 id="contact-me">Contact me</h3>
+
+# # <p><a href="/cdn-cgi/l/email-protection#2a7949455e5e6a7949455e5e664b58594f4404494547"><span class="__cf_email__" data-cfemail="81d2e2eef5f5c1d2e2eef5f5cde0f3f2e4efafe2eeec">[email&#160;protected]</span></a></p>
+
+# #   </div>
+# # </article>
+
+# #     </div>
+
+# #     <div class="border-top-thin clearfix mt-2 mt-lg-4">
+# #   <div class="container mx-auto px-2">
+# #     <!-- <p class="col-8 sm-width-full left py-2 mb-0">This project is maintained by <a class="text-accent" href="https://github.com/Scott-Larsen">Scott-Larsen</a></p> -->
+# #     <ul class="list-reset right clearfix sm-width-full py-2 mb-2 mb-lg-0">
+# #       <li class="inline-block mr-1">
+# #         <!-- <a href="https://twitter.com/share" class="twitter-share-button" data-hashtags="Scott Larsen">Tweet</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+# #       </li>
+# #       <li class="inline-block">
+# #         <a class="github-button" href="https://github.com/Scott-Larsen/" data-icon="octicon-star" data-count-href="Scott-Larsen//stargazers" data-count-api="/repos/Scott-Larsen/#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star Scott-Larsen/ on GitHub">Star</a> -->
+# #       </li>
+# #     </ul>
+# #   </div>
+# # </div>
+
+
+# #   <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+
+# # </html>
+
+# # """
+
+
+# def extractLongestString(t1, t2):
+#     noChange = False
+#     while noChange == False:
+#         noChange = True
+#         longestSubstring = ""
+#         i = 0
+#         for i in range(len(t1) - 1):
+#             if len(t1) > len(longestSubstring):
+#                 j = 1
+#                 while i + j < len(t1) + 1:
+#                     if t1[i : i + j] in t2:
+#                         if j > len(longestSubstring) and j > 3:  # and " " t1[i: i + j]:
+#                             noChange = False
+#                             longestSubstring = t1[i : i + j]
+#                             # print(longestSubstring)
+#                             li, lj = i, j
+#                     j += 1
+#         if noChange == False:
+#             t1 = t1[:li] + t1[li + lj :]
+#             # print(t1)
+#         print(t1)
+#         print(text2)
+#     return t1
+
+
+# def compareOldAndNew(newText, oldText):
+#     if newText != oldText:
+#         print("Mismatch\n")
+#         nt = newText[:]
+#         nt = extractLongestString(nt, oldText)
+#         print(f"The text has changed {int(len(nt) / len(newText) * 100)}%.")
 #     else:
-#         solutions = []
-#         potentials = []
-#         halfRange = n / 2
-#         if isinstance(halfRange, float):
-#             halfRange = int(halfRange + 0.5)
-#         for i in range(1, halfRange):
-#             potentials.append([i])
-#         while potentials:
-#             current = potentials.pop()
-#             for j in range(current[-1] + 1, n - sum(current) + 1):
-#                 potential = current + [j]
-#                 if sum(potential) == n:
-#                     solutions.append(potential)
-#                     print(potential)
-#                 else:
-#                     potentials.append(potential)
-#         return len(solutions)
+#         print("No change")
 
 
-# print(solution(15))
-# # for x in range(4, 201):
-# #     print(solution(x))
-
-
-# # CORRECT SPECIFICATION:
-# #
-# # the Queue class provides a fized-size FIFO queue of integers
-# #
-# # the constructor takes a single parameter: an integer >0 that
-# # is the maximum number of elements the queue can hold
-# #
-# # empty() returns True iff the queue holds no elements
-# #
-# # full() returns True iff the queue cannot hold any more elements
-# #
-# # enqueue(i) attempts to put the integer i into the queue; it returns
-# # True if successful and False if the queue is full
-# #
-# # dequeue() removes an integer from the queue and returns it,
-# # or else returns None if the queue is empty
-
-# import array
-
-# class Queue:
-#     def __init__(self,size_max):
-#         assert size_max > 0
-#         self.max = size_max
-#         self.head = 0
-#         self.tail = 0
-#         self.size = 0
-#         self.data = array.array('i', range(size_max))
-
-#     def empty(self):
-#         return self.size == 0
-
-#     def full(self):
-#         return self.size == self.max
-
-#     def enqueue(self,x):
-#         if self.size == self.max:
-#             return False
-#         self.data[self.tail] = x
-#         self.size += 1
-#         self.tail += 1
-#         if self.tail == self.max:
-#             self.tail = 0
-#         return True
-
-#     def dequeue(self):
-#         if self.size == 0:
-#             return None
-#         x = self.data[self.head]
-#         self.size -= 1
-#         self.head += 1
-#         if self.head == self.max:
-#             self.head = 0
-#         return x
-
-
-# def test1():
-#     q = Queue(3)
-#     res = q.empty()
-#     if not res:
-#         print "test1 NOT OK"
-#         return
-#     res = q.enqueue(10)
-#     if not res:
-#         print "test1 NOT OK"
-#         return
-#     res = q.enqueue(11)
-#     if not res:
-#         print "test1 NOT OK"
-#         return
-#     x = q.dequeue()
-#     if x != 10:
-#         print "test1 NOT OK"
-#         return
-#     x = q.dequeue()
-#     if x != 11:
-#         print "test1 NOT OK"
-#         return
-#     res = q.empty()
-#     if not res:
-#         print "test1 NOT OK"
-#         return
-#     print "test1 OK"
-
-# def test2():
-#     q = Queue(1)
-#     res = q.enqueue(2)
-#     if q.enqueue(5):
-#         print("test2 not OK")
-#     print("test2 OK")
-
-# def test3():
-#     q = Queue(2)
-#     res = q.enqueue(1)
-#     res = q.enqueue(2)
-#     res = q.enqueue(3)
-#     if res:
-#         print("test3 not OK")
-#     prin("test3 OK")
-
-
-# test1()
-# test2()
-# test3()
-
-
-# toSolve = [1]
-# for j in range(len(toSolve) - 1, -1, -1):
-# print(j)
-
-
-# # s = "abba"
-# # print(s.split())
-
-# # endPosition = [18, 20, 25, 29, 41, 45, 50, 52]
-# # moves = []
-# # for x in endPosition:
-# #     moves.append(x - 35)
-# # print(moves)
-
-# # [-17, -15, -10, -6, 6, 10, 15, 17]
-
-# #     -17     -15
-# # -10             -6
-# #         0
-# # 6               10
-# #     15      17
-
-
-# # import requests
-# # import time
-# # import smtplib
-# # import hashlib
-# # from fake_useragent import UserAgent
-# # from os import path
-# # from urllib.request import urlopen
-# # from time import sleep
-
-# # ua = UserAgent()
-# # header = {"User-Agent": str(ua.random)}
-
-# # # url = "http://scottlarsen.com"
-# # # url = "https://www.health.pa.gov/topics/disease/coronavirus/Pages/Vaccine.aspx"
-# # # url = "https://www.doylestownhealth.org/about/news/health-news-and-blog/information-on-coronavirus-covid-19"
-# # # filepath = "/Users/Scott/Desktop/DATA/SORT/CodingProgrammingPython/checkWebsiteForUpdates/test.html"
-
-# # # htmlContent = requests.get(url, headers=header)
-# # # text = "".join(htmlContent.text.split())
-
-# # # sleep(10)
-
-# # # newHtmlContent = requests.get(url, headers=header)
-# # # textFromFile = "".join(newHtmlContent.text.split())
-
-# # # with open(
-# # #     filepath,
-# # #     "w",
-# # # ) as f:
-# # #     f.writelines(text)
-
-# # # with open(
-# # #     filepath,
-# # #     "r",
-# # # ) as f:
-# # #     textFromFile = f.read()  # .splitlines()
-
-# # # if text == textFromFile:
-# # #     print("Matching!")
-# # # else:
-# # #     print("Mismatch!")
-# # #     print(text, textFromFile)
-
-# # # print(text)  # , textFromFile)
-
-# # # # from difflib import Differ
-# # # # import difflib
-
-# # # # from bs4 import BeautifulSoup
-
-# # # sites = {"scott@scottlarsen.com": {"http://scottlarsen.com": 3}}
-# # sites = {
-# #     "scott@scottlarsen.com": {
-# #         "https://www.health.pa.gov/topics/disease/coronavirus/Pages/Vaccine.aspx": 1
-# #     }
-# # }
-# # #         ,
-# # #         "https://www.doylestownhealth.org/patients-and-visitors/patient-resources/covid19-resources": 2,
-# # #     }
-# # # }
-
-# # ua = UserAgent()
-# # header = {"User-Agent": str(ua.random)}
-
-
-# # # def stripText(text):
-# # #     # return hashlib.hash256(text.encode("utf-8")).hexdigest()
-# # #     interval = len(text) // 100
-# # #     res = []
-# # #     for i in range(0, len(text), interval):
-# # #         # print(text[i])
-# # #         if text[i].isalpha():  # not in ["\n", "\r", " "]:
-# # #             res.append(text[i])
-# # #     # print(res)
-# # #     return "".join(res)
-
-
-# # def stripText(text):
-# #     return "".join(text.strip())
-
-
-# # def downloadText(url):
-# #     # from urllib.request import Request, urlopen
-
-# #     # req = Request(
-# #     #     "http://www.cmegroup.com/trading/products/#sortField=oi&sortAsc=false&venues=3&page=1&cleared=1&group=1",
-# #     #     headers={"User-Agent": "Mozilla/5.0"},
-# #     # )
-# #     # response = urlopen(req).read()
-
-# #     # response = urlopen(url).read()
-# #     # print(response)
-# #     # return response
-# #     htmlContent = requests.get(url, headers=header)
-# #     return htmlContent.text
-
-
-# # def saveText(text, filepath):
-# #     # text = stripText(text)
-# #     print(text[0])
-# #     with open(
-# #         filepath,
-# #         "w",
-# #     ) as f:
-# #         f.writelines(text)
-
-
-# # def compareOldAndNew(url, filepath):
-# #     with open(
-# #         filepath,
-# #         "r",
-# #     ) as f:
-# #         hashFromFile = f.read().splitlines()
-
-# #     # htmlContent = requests.get(url, headers=header)
-# #     currentSHA = stripText(downloadText(url))
-# #     hashFromFile = stripText(hashFromFile[0])
-# #     if currentSHA != hashFromFile:
-# #         print("Mismatch\n")
-# #         print(hashFromFile[:200])
-# #         print("\n\n\n")
-# #         print(currentSHA[:500])
-# #     else:
-# #         print("No change")
-# #         # print(currentSHA, hashFromFile[0])
-
-
-# # def main():
-# #     for email in sites.keys():
-# #         for url in sites[email].keys():
-# #             # print(downloadText(url))
-# #             filepath = f"/Users/Scott/Desktop/DATA/SORT/CodingProgrammingPython/checkWebsiteForUpdates/{sites[email][url]}.html"
-# #             if not path.exists(filepath):
-# #                 print(f"No existing record for {url}, downloading now")
-# #                 saveText(downloadText(url), filepath)
-# #             else:
-# #                 compareOldAndNew(url, filepath)
-
-
-# # if __name__ == "__main__":
-# #     main()
+# text1, text2 = openFile(filepath1), openFile(filepath2)
+# compareOldAndNew(text1, text2)
