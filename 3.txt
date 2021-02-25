@@ -49,11 +49,11 @@
   <div class="prose mb-4 py-4">
     <p><img class="profilePhoto" alt="Scott Larsen Portrait" src="https://avatars1.githubusercontent.com/u/25908816?s=460&amp;v=4" /></p>
 
-<p>Hi 👋, I’m Scott, a 🐍 Python Developer with HTML5, CSS3 and a bit of Javascript experience looking for my first developer role.  I would be happy to relocate, especially once the Covid pandemic has wound down.  I have experience in building websites with Flask, scraping data using Beautiful Soup and Selenium and querying GraphQL/ APIs.  Because of my background in photography I have dabbled in and would love to delve deeper into learning from and manipulating images and video with OpenCV and computer vision.</p>
+<p>Hi 👋, I’m Scott, a 🐍 Python Developer with HTML5, CSS3 and a bit of Javascript experience looking for my first developer role. I would be happy to relocate, especially once the Covid pandemic has wound down. I have experience in building websites with Flask, scraping data using Beautiful Soup and Selenium and querying GraphQL/ APIs. Because of my background in photography I have dabbled in and would love to delve deeper into learning from and manipulating images and video with OpenCV and computer vision.</p>
 
 <h3 id="contact-me">Contact me</h3>
 
-<p><a href="/cdn-cgi/l/email-protection#7122121e05053122121e05053d100302141f5f121e1c"><span class="__cf_email__" data-cfemail="4112222e35350112222e35350d203332242f6f222e2c">[email&#160;protected]</span></a></p>
+<p><a href="/cdn-cgi/l/email-protection#88dbebe7fcfcc8dbebe7fcfcc4e9fafbede6a6ebe7e5"><span class="__cf_email__" data-cfemail="c291a1adb6b68291a1adb6b68ea3b0b1a7aceca1adaf">[email&#160;protected]</span></a></p>
 
   </div>
 </article>
